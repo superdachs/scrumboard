@@ -1,0 +1,14 @@
+{
+"tasks": [
+  {
+    "title": "Male eine Kuh",
+    "description": "Male eine gefleckte Kuh. Male sie von der Seite. Die Kuh soll Hörner tragen",
+    "points": 1
+  },
+  {
+    "title": "Schnitze ein Zebra",
+    "description": "Schnitze ein Zebra aus Ahorn. Das Zebra soll später angemalt werden."
+    "points": 3
+  }
+]
+}
