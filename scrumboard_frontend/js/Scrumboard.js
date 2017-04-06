@@ -1,48 +1,101 @@
 import React from 'react'
-import { render } from 'react-dom'
+import {render} from 'react-dom'
 import TaskCard from './TaskCard'
 import preload from '../data.json'
 import '../public/style.css'
 
 const Scrumboard = React.createClass({
+
+  getInitialState () {
+    return {
+      tasks: preload.tasks
+    }
+  },
+
+  prev (evt) {
+    let id = evt.target.pk
+    let tasks = this.state.tasks
+    let task = tasks.filter((task) => {
+      return task.pk === id
+    })
+    tasks.pop(task)
+    if (task.status === 'DONE') { task.status = 'DO' } else { task.status = 'NEW' }
+    tasks.push(task)
+
+    this.setState({
+      tasks: tasks
+    })
+  },
+
+  next (evt) {
+    let id = evt.target.pk
+    let tasks = this.state.tasks
+    let task = tasks.filter((task) => {
+      return task.pk === id
+    })
+    tasks.pop(task)
+    if (task.status === 'NEW') { task.status = 'DO' } else { task.status = 'DONE' }
+    tasks.push(task)
+
+    this.setState({
+      tasks: tasks
+    })
+  },
+
   render () {
+    let newTasks = []
+    let doTasks = []
+    let doneTasks = []
+    this.state.tasks.map((task) => {
+      if (task.status === 'NEW') {
+        newTasks.push(task)
+      } else if (task.status === 'DO') {
+        doTasks.push(task)
+      } else if (task.status === 'DONE') {
+        doneTasks.push(task)
+      }
+    }
+        )
+
     return (
+
       <div className='scrumboard'>
         <table>
-          <tr><th>NEW</th><th>DOING</th><th>DONE</th></tr>
-          <tr><td>
-            {preload.tasks.map((task) => {
-              if (task.status === 'NEW') {
+          <tr>
+            <th>NEW</th>
+            <th>DOING</th>
+            <th>DONE</th>
+          </tr>
+          <tr>
+            <td>
+              {newTasks.map((task) => {
                 return (
-
-                  <TaskCard task={task} />
+                  <TaskCard task={task} prev={this.prev} next={this.next} />
                 )
               }
-            })
-        }
-          </td><td>
-            {preload.tasks.map((task) => {
-              if (task.status === 'DO') {
+                            )
+                            }
+            </td>
+            <td>
+              {doTasks.map((task) => {
                 return (
-
-                  <TaskCard task={task} />
+                  <TaskCard task={task} prev={this.prev} next={this.next} />
                 )
               }
-            })
-        }
-          </td><td className='lastCol'>
-            {preload.tasks.map((task) => {
-              if (task.status === 'DONE') {
+                            )
+                            }
+            </td>
+            <td>
+              {doneTasks.map((task) => {
                 return (
-
-                  <TaskCard task={task} />
+                  <TaskCard task={task} prev={this.prev} next={this.next} />
                 )
               }
-            })
-        }
-          </td></tr>
+                            )
+                            }
+            </td>
+          </tr>
         </table>
-
       </div>
     )
   }
