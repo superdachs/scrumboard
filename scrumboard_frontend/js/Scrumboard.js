@@ -13,12 +13,15 @@ const Scrumboard = React.createClass({
   },
 
   prev (evt) {
-    let id = evt.target.pk
-    console.log(id)
+    let id = evt.target.className
+    console.log(evt.target.className)
     let tasks = this.state.tasks
+    console.log(tasks)
     let task = tasks.filter((task) => {
-      return task.pk === id
+      console.log(task.pk === id)
+      if (task.pk === id) { return task }
     })
+    console.log(task)
     tasks.pop(task)
     if (task.status === 'DONE') { task.status = 'DO' } else { task.status = 'NEW' }
     tasks.push(task)
@@ -29,12 +32,15 @@ const Scrumboard = React.createClass({
   },
 
   next (evt) {
-    let id = evt.target.pk
-    console.log(id)
+    let id = evt.target.className
+    console.log(evt.target.className)
     let tasks = this.state.tasks
+    console.log(tasks)
     let task = tasks.filter((task) => {
-      return task.pk === id
-    })
+      if (task.pk === id) { return task }
+    }
+    )
+    console.log(task)
     tasks.pop(task)
     if (task.status === 'NEW') { task.status = 'DO' } else { task.status = 'DONE' }
     tasks.push(task)

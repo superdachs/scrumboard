@@ -22,8 +22,8 @@ const TaskCard = React.createClass({
         <h3 className='storypoints'>{points}</h3>
         <p className='description'>{description}</p>
         <p className='taskstatus'>{status}</p>
-        <button onClick={this.props.prev}>previous</button>
-        <button onClick={this.props.next}>next</button>
+        <button className={pk} onClick={this.props.prev}>previous</button>
+        <button className={pk} onClick={this.props.next}>next</button>
       </div>
     )
   }
