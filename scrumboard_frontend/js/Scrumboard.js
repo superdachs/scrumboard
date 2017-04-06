@@ -14,6 +14,7 @@ const Scrumboard = React.createClass({
 
   prev (evt) {
     let id = evt.target.pk
+    console.log(id)
     let tasks = this.state.tasks
     let task = tasks.filter((task) => {
       return task.pk === id
@@ -29,6 +30,7 @@ const Scrumboard = React.createClass({
 
   next (evt) {
     let id = evt.target.pk
+    console.log(id)
     let tasks = this.state.tasks
     let task = tasks.filter((task) => {
       return task.pk === id
