@@ -6,17 +6,19 @@ const TaskCard = React.createClass({
     task: {
       title: React.PropTypes.string.isRequired,
       description: React.PropTypes.string.isRequired,
-      points: React.PropTypes.number
+      points: React.PropTypes.number.isRequired,
+      status: React.PropTypes.string.isRequired
     }
   },
 
   render () {
-    const { title, description, points } = this.props.task
+    const { title, description, points, status } = this.props.task
     return (
       <div className='taskcard'>
-        <h3>{title}</h3>
-        <p>{description}</p>
-        <p>{points}</p>
+        <h3 className='header'>{title}</h3>
+        <h3 className='storypoints'>{points}</h3>
+        <p className='description'>{description}</p>
+        <p>{status}</p>
       </div>
     )
   }
