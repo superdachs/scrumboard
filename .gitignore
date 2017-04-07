@@ -89,4 +89,4 @@ ENV/
 .ropeproject
 /scrumboard_frontend/node_modules/
 /scrumboard_frontend/public/
-/scrumboard_backend/db.sqlite3
+!/scrumboard_frontend/static/style.css

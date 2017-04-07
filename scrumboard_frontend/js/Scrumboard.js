@@ -1,7 +1,7 @@
 import React from 'react'
 import {render} from 'react-dom'
 import TaskCard from './TaskCard'
-import '../public/style.css'
+import '../static/style.css'
 import axios from 'axios'
 
 const token = '78e9516220700adba69f28b1fcdc2b684b48762e'
