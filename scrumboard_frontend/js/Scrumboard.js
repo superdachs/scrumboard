@@ -1,14 +1,44 @@
 import React from 'react'
 import {render} from 'react-dom'
 import TaskCard from './TaskCard'
-import preload from '../data.json'
 import '../public/style.css'
+import axios from 'axios'
+
+const token = '78e9516220700adba69f28b1fcdc2b684b48762e'
 
 const Scrumboard = React.createClass({
 
+  setTasks (tasks) {
+    this.setState(
+      {
+        tasks: tasks
+      }
+    )
+  },
+
+  getDataFromApi () {
+    axios.get('http://127.0.0.1:8000/tasks/').then(
+        (response) => {
+          console.log(response.data)
+          this.setTasks(response.data)
+        }
+    ).catch(
+        (error) => {
+          console.log(error)
+        }
+    )
+    console.log()
+  },
+
+  updateTaskToApi (task) {
+    axios.defaults.headers.common['Authorization'] = 'Token ' + token
+    axios.patch('http://127.0.0.1:8000/tasks/' + task.pk.toString() + '/', task)
+  },
+
   getInitialState () {
+    this.getDataFromApi()
     return {
-      tasks: preload.tasks
+      tasks: []
     }
   },
 
@@ -23,6 +53,7 @@ const Scrumboard = React.createClass({
     this.setState({
       tasks: tasks
     })
+    this.updateTaskToApi(task)
   },
 
   next (evt) {
@@ -37,6 +68,7 @@ const Scrumboard = React.createClass({
     this.setState({
       tasks: tasks
     })
+    this.updateTaskToApi(task)
   },
 
   render () {
@@ -58,40 +90,42 @@ const Scrumboard = React.createClass({
 
       <div className='scrumboard'>
         <table>
-          <tr>
-            <th>NEW</th>
-            <th>DOING</th>
-            <th>DONE</th>
-          </tr>
-          <tr>
-            <td>
-              {newTasks.map((task) => {
-                return (
-                  <TaskCard task={task} prev={this.prev} next={this.next} />
-                )
-              }
+          <tbody>
+            <tr>
+              <th>NEW</th>
+              <th>DOING</th>
+              <th>DONE</th>
+            </tr>
+            <tr>
+              <td>
+                {newTasks.map((task) => {
+                  return (
+                    <TaskCard task={task} prev={this.prev} next={this.next} />
+                  )
+                }
                             )
                             }
-            </td>
-            <td>
-              {doTasks.map((task) => {
-                return (
-                  <TaskCard task={task} prev={this.prev} next={this.next} />
-                )
-              }
+              </td>
+              <td>
+                {doTasks.map((task) => {
+                  return (
+                    <TaskCard task={task} prev={this.prev} next={this.next} />
+                  )
+                }
                             )
                             }
-            </td>
-            <td>
-              {doneTasks.map((task) => {
-                return (
-                  <TaskCard task={task} prev={this.prev} next={this.next} />
-                )
-              }
+              </td>
+              <td>
+                {doneTasks.map((task) => {
+                  return (
+                    <TaskCard task={task} prev={this.prev} next={this.next} />
+                  )
+                }
                             )
                             }
-            </td>
-          </tr>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     )
