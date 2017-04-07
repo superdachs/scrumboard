@@ -90,3 +90,4 @@ ENV/
 /scrumboard_frontend/node_modules/
 /scrumboard_frontend/public/
 !/scrumboard_frontend/static/style.css
+/scrumboard_backend/db.sqlite3

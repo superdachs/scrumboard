@@ -4,7 +4,7 @@ import TaskCard from './TaskCard'
 import '../static/style.css'
 import axios from 'axios'
 
-const token = '78e9516220700adba69f28b1fcdc2b684b48762e'
+const token = '2960f0bb266cce6e2d0834c348f9b8912bee9245'
 
 const Scrumboard = React.createClass({
 
@@ -19,7 +19,6 @@ const Scrumboard = React.createClass({
   getDataFromApi () {
     axios.get('http://127.0.0.1:8000/tasks/').then(
         (response) => {
-          console.log(response.data)
           this.setTasks(response.data)
         }
     ).catch(
@@ -27,7 +26,6 @@ const Scrumboard = React.createClass({
           console.log(error)
         }
     )
-    console.log()
   },
 
   updateTaskToApi (task) {
@@ -40,6 +38,36 @@ const Scrumboard = React.createClass({
     return {
       tasks: []
     }
+  },
+
+  addTask (evt) {
+    console.log('adding task')
+    let title = document.getElementById('addTitle').value
+    let description = document.getElementById('addDescription').value
+    let points = document.getElementById('addPoints').value
+    let task = {
+      'title': title,
+      'description': description,
+      'points': points,
+      'status': 'NEW'
+    }
+    axios.defaults.headers.common['Authorization'] = 'Token ' + token
+    axios.post('http://127.0.0.1:8000/tasks/', task)
+  },
+
+  removeTask (evt) {
+    let id = evt.target.className
+    let tasks = this.state.tasks
+    let task = tasks.filter((t) => {
+      if (t.pk.toString() === id.toString()) { return t }
+    })[0]
+    tasks.pop(task)
+    axios.defaults.headers.common['Authorization'] = 'Token ' + token
+    axios.delete('http://127.0.0.1:8000/tasks/' + task.pk.toString() + '/')
+
+    this.setState({
+      tasks: tasks
+    })
   },
 
   prev (evt) {
@@ -100,7 +128,7 @@ const Scrumboard = React.createClass({
               <td>
                 {newTasks.map((task) => {
                   return (
-                    <TaskCard task={task} prev={this.prev} next={this.next} />
+                    <TaskCard task={task} prev={this.prev} next={this.next} delete={this.removeTask} />
                   )
                 }
                             )
@@ -109,7 +137,7 @@ const Scrumboard = React.createClass({
               <td>
                 {doTasks.map((task) => {
                   return (
-                    <TaskCard task={task} prev={this.prev} next={this.next} />
+                    <TaskCard task={task} prev={this.prev} next={this.next} delete={this.removeTask} />
                   )
                 }
                             )
@@ -118,7 +146,7 @@ const Scrumboard = React.createClass({
               <td>
                 {doneTasks.map((task) => {
                   return (
-                    <TaskCard task={task} prev={this.prev} next={this.next} />
+                    <TaskCard task={task} prev={this.prev} next={this.next} delete={this.removeTask} />
                   )
                 }
                             )
@@ -127,6 +155,14 @@ const Scrumboard = React.createClass({
             </tr>
           </tbody>
         </table>
+        <div className='addTask'>
+          <form id='addTaskForm'>
+            <a>title: </a><input id='addTitle' type='text' label='title' /><br />
+            <a>description: </a><input id='addDescription' type='text' label='description' /><br />
+            <a>points: </a><input id='addPoints' type='text' label='points' /><br />
+            <button className='addButton' onClick={this.addTask}>ADD</button>
+          </form>
+        </div>
       </div>
     )
   }

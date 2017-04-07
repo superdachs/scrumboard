@@ -11,19 +11,20 @@ const TaskCard = React.createClass({
       pk: React.PropTypes.number.isRequired
     },
     prev: React.PropTypes.func,
-    next: React.PropTypes.func
+    next: React.PropTypes.func,
+    delete: React.PropTypes.func
   },
 
   render () {
-    const { title, description, points, status, pk } = this.props.task
+    const { title, description, points, pk } = this.props.task
     return (
       <div className='taskcard'>
-        <h3 className='header'>{pk} {title}</h3>
+        <h3 className='header'>#{pk} - {title}</h3>
         <h3 className='storypoints'>{points}</h3>
         <p className='description'>{description}</p>
-        <p className='taskstatus'>{status}</p>
         <button className={pk} onClick={this.props.prev}>previous</button>
         <button className={pk} onClick={this.props.next}>next</button>
+        <button className={pk} onClick={this.props.delete}>DELETE</button>
       </div>
     )
   }
