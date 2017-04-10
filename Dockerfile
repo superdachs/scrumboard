@@ -9,7 +9,10 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN mkdir /scrumboard
 
 COPY scrumboard_backend /scrumboard/
-RUN mkdir -p /scrumboard/scrumboard_backend/static
-COPY scrumboard_frontend/static /scrumboard/scrumboard_backend/static/
-COPY scrumboard_frontend/public /scrumboard/scrumboard_backend/static/
+COPY scrumboard_frontend/static /scrumboard/
+COPY scrumboard_frontend/public /scrumboard/
+COPY scrumboard_frontend/index.html /scrumboard/
 
+RUN pip3 install -r /scrumboard/requirements.txt
+
+CMD /scrumboard/manage.py runserver 0.0.0.0:8000
